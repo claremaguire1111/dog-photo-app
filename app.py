@@ -11,25 +11,26 @@ def check_breed(breed):
 @app.route("/", methods=["GET", "POST"])
 def dog_image_gallery():
     errors = []
-    dog_images = []  # Initialize an empty list for dog images
-
+    dog_images = []
+    breed = ""
+    
     if request.method == "POST":
         breed = request.form.get("breed")
-
-        # If no breed is selected, append an error message
         if not breed:
             errors.append("Oops! Please choose a breed.")
-
-        # If a breed is selected, fetch images from the Dog API
         if breed:
-            response = requests.get(f"https://dog.ceo/api/breed/{check_breed(breed)}/images/random/30")
-            data = response.json()  # Convert API response to a dictionary
-            dog_images = data["message"]  # Extract the images using the 'message' key
+            response = requests.get("https://dog.ceo/api/breed/" + check_breed(breed) + "/images/random/30")
+            data = response.json()
+            dog_images = data["message"]
+    
+    # Check if breed is selected, only then prettify it
+    prettified_breed = prettify_dog_breed(breed) if breed else ""
 
-    return render_template("dogs.html", errors=errors, dog_images=dog_images)
+    return render_template("dogs.html", images=dog_images, breed=prettified_breed, errors=errors)
 
 app.debug = True
 
 # Run the flask server
 if __name__ == "__main__":
     app.run()
+
