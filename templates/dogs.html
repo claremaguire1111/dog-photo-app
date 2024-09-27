@@ -1,13 +1,33 @@
 <html>
 <head>
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='dogs.css') }}">
-  <link href="https://fonts.googleapis.com/css?family=Rozha+One&display=swap" rel="stylesheet"> 
- <link href="https://fonts.googleapis.com/css?family=Red+Hat+Display:400,700&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dogs.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Rozha+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Red+Hat+Display:400,700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="header">
     <img class="pup-logo" src="https://s3.amazonaws.com/media.skillcrush.com/skillcrush/wp-content/uploads/2019/09/Asset-1.png" />
     <h1>Dog Image Gallery</h1>
   </div>
+  
   <div class="content">
-        <img class="dogimage" src="https://images.dog.ceo/breeds/corgi-cardigan/n02113186_2431.jpg"">
+    <!-- Display any errors -->
+    {% if errors %}
+      <ul>
+        {% for error in errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
+    <!-- Display dog images -->
+    {% if dog_images %}
+      <div class="dog-gallery">
+        {% for image in dog_images %}
+          <img class="dogimage" src="{{ image }}" alt="Dog Image">
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
